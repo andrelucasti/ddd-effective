@@ -10,30 +10,33 @@ class ImmutableCustomerTest {
 
     @Test
     void shouldChangeTheName() {
-        var immutableCustomerId = UUID.randomUUID();
-        var immutableCustomer = new ImmutableCustomer(immutableCustomerId, "Lucas", "Av. Pretty Lisbon", false);
+        var id = UUID.randomUUID();
+        var address = new Address("Av. Pretty Lisbon", "Lisbon", "Lisbon", "12345-678");
+        var customer = new ImmutableCustomer(id, "Lucas", address, false);
 
-        var customerWithNewName = immutableCustomer.changeName("Andre");
+        var customerWithNewName = customer.changeName("Andre");
 
         assertAll(
-                () -> assertEquals(immutableCustomer.id(), customerWithNewName.id()),
-                () -> assertNotEquals(immutableCustomer.name(), customerWithNewName.name()),
+                () -> assertEquals(customer.id(), customerWithNewName.id()),
+                () -> assertNotEquals(customer.name(), customerWithNewName.name()),
                 () -> assertEquals("Andre", customerWithNewName.name()),
-                () -> assertEquals(immutableCustomer.address(), customerWithNewName.address())
+                () -> assertEquals(customer.address(), customerWithNewName.address())
         );
     }
 
     @Test
     void shouldThrowExceptionWhenNameIsEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> new ImmutableCustomer(UUID.randomUUID(), "", "Av. Pretty Lisbon", false));
+        var address = new Address("Av. Pretty Lisbon", "Lisbon", "Lisbon", "12345-678");
 
-        var immutableCustomer = new ImmutableCustomer(UUID.randomUUID(), "Lucas", "Av. Pretty Lisbon", false);
-        assertThrows(IllegalArgumentException.class, () -> immutableCustomer.changeName(""));
+        assertThrows(IllegalArgumentException.class, () -> new ImmutableCustomer(UUID.randomUUID(), "", address, false));
+
+        var customer = new ImmutableCustomer(UUID.randomUUID(), "Lucas", address, false);
+        assertThrows(IllegalArgumentException.class, () -> customer.changeName(""));
     }
 
     @Test
     void shouldThrowExceptionWhenActivateACustomerWithoutAddress() {
-        var immutableCustomer = new ImmutableCustomer(UUID.randomUUID(), "Andre", "", false);
+        var immutableCustomer = new ImmutableCustomer(UUID.randomUUID(), "Andre", null, false);
 
         assertThrows(IllegalArgumentException.class, immutableCustomer::activate);
 
@@ -41,8 +44,9 @@ class ImmutableCustomerTest {
 
     @Test
     void shouldActivateACustomer() {
-        var immutableCustomerId = UUID.randomUUID();
-        var immutableCustomer = new ImmutableCustomer(immutableCustomerId, "Lucas", "Av. Pretty Lisbon", false);
+        var id = UUID.randomUUID();
+        var address = new Address("Av. Pretty Lisbon", "Lisbon", "Lisbon", "12345-678");
+        var immutableCustomer = new ImmutableCustomer(id, "Lucas", address, false);
 
         var activatedCustomer = immutableCustomer.activate();
 

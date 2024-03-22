@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public record ImmutableCustomer(UUID id,
                                 String name,
-                                String address,
+                                Address address,
                                 boolean active) {
 
     public ImmutableCustomer {
@@ -18,7 +18,7 @@ public record ImmutableCustomer(UUID id,
     }
 
     public ImmutableCustomer activate() {
-        if (address.isBlank()) {
+        if (address == null) {
             throw new IllegalArgumentException("Address cannot be empty");
         }
 
