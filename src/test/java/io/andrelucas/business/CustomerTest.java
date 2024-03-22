@@ -10,27 +10,22 @@ class CustomerTest {
 
     @Test
     void shouldChangeTheName() {
-        var uuid = UUID.randomUUID();
-        var immutableCustomer = new ImmutableCustomer(uuid, "Lucas", "Av. Pretty Lisbon");
-
-        var customerWithNewName = immutableCustomer.changeName("Andre");
-
-        assertAll(
-                () -> assertEquals(immutableCustomer.id(), customerWithNewName.id()),
-                () -> assertNotEquals(immutableCustomer.name(), customerWithNewName.name()),
-                () -> assertEquals("Andre", customerWithNewName.name()),
-                () -> assertEquals(immutableCustomer.address(), customerWithNewName.address())
-        );
-
-
-        var id = UUID.randomUUID();
-        var customer = new Customer(id, "Joey", "Av. California");
+        var customerId = UUID.randomUUID();
+        var customer = new Customer(customerId, "Joey", "Av. California", false);
 
         customer.changeName("Corey");
         assertAll(
-                () -> assertEquals(id, customer.getId()),
+                () -> assertEquals(customerId, customer.getId()),
                 () -> assertEquals("Corey", customer.getName()),
                 () -> assertEquals("Av. California", customer.getAddress())
         );
+    }
+
+    @Test
+    void shouldThrowExceptionWhenNameIsEmpty() {
+        assertThrows(IllegalArgumentException.class, () -> new Customer(UUID.randomUUID(), "", "Av. California", false));
+
+        var customer = new Customer(UUID.randomUUID(), "Joey", "Av. California", false);
+        assertThrows(IllegalArgumentException.class, () -> customer.changeName(""));
     }
 }

@@ -4,9 +4,24 @@ import java.util.UUID;
 
 public record ImmutableCustomer(UUID id,
                                 String name,
-                                String address) {
+                                String address,
+                                boolean active) {
+
+    public ImmutableCustomer {
+        if (name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+    }
 
     public ImmutableCustomer changeName(String name){
-        return new ImmutableCustomer(this.id, name, this.address);
+        return new ImmutableCustomer(this.id, name, this.address, this.active);
+    }
+
+    public ImmutableCustomer activate() {
+        if (address.isBlank()) {
+            throw new IllegalArgumentException("Address cannot be empty");
+        }
+
+        return new ImmutableCustomer(this.id, this.name, this.address, true);
     }
 }

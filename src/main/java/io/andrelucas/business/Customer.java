@@ -7,16 +7,30 @@ public class Customer {
     private String name;
     private String address;
 
+    private Boolean active;
+
     public Customer(UUID id,
                     String name,
-                    String address) {
+                    String address,
+                    Boolean active) {
         this.id = id;
         this.name = name;
         this.address = address;
+        this.active = active;
+
+        validate();
+    }
+
+    void validate(){
+        if (name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
     }
 
     public void changeName(String name){
         this.name = name;
+
+        validate();
     }
 
 
