@@ -45,4 +45,18 @@ public class Customer {
     public String getAddress() {
         return address;
     }
+
+    public void activate(){
+        if (address == null) {
+            throw new IllegalArgumentException("Address cannot be empty");
+        }
+
+        active = true;
+    }
+    public void desactivate(){
+        active = false;
+    }
+    public boolean isActive() {
+        return active;
+    }
 }

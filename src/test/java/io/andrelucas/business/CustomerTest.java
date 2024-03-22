@@ -28,4 +28,27 @@ class CustomerTest {
         var customer = new Customer(UUID.randomUUID(), "Joey", "Av. California", false);
         assertThrows(IllegalArgumentException.class, () -> customer.changeName(""));
     }
+
+    @Test
+    void shouldThrowExceptionWhenActivateACustomerWithoutAddress() {
+        var customer = new Customer(UUID.randomUUID(), "Joey", null, false);
+
+        assertThrows(IllegalArgumentException.class, customer::activate);
+
+    }
+
+    @Test
+    void shouldActivateACustomer() {
+        var customerId = UUID.randomUUID();
+        var customer = new Customer(customerId, "Joey", "Av. California", false);
+
+        customer.activate();
+
+        assertAll(
+                () -> assertEquals(customerId, customer.getId()),
+                () -> assertEquals("Joey", customer.getName()),
+                () -> assertEquals("Av. California", customer.getAddress()),
+                () -> assertTrue(customer.isActive())
+        );
+    }
 }
