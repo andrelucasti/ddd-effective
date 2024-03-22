@@ -18,3 +18,9 @@ Rules for Value Objects:
 - Immutability
 - Auto validation
 - Not have an identity (id) because it is a group of attributes.
+
+### Aggregates
+
+An aggregate is a group of entities and value objects that are treated as a single unit.
+
+![Aggregates](aggregates-diagram.png)
